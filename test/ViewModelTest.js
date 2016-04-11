@@ -104,5 +104,5 @@ List.bindElement('#app7-list1', {
 });
 
 List.bindElement('#app7-list2', {
-    items: ['噫', '我的音乐', '对对对对了，一口气念对了', '花海']
+    items: ['Baka', 'Hentai']
 });
