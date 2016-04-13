@@ -14,8 +14,5 @@
     "Library"
   ],
   "author": "Kyles Light",
-  "license": "ISC",
-  "dependencies": {
-    "parse-katex": "^0.3.0"
-  }
+  "license": "ISC"
 }

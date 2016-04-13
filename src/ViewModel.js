@@ -97,7 +97,7 @@ var ViewModel = Model.createClass({
     _renderPassivity: function () {
         for (var i in this._stateElMap) {
             var afterRender = whiskers.render(this._stateElMap[i], this.state);
-            this._selectInScope('.lm-' + i).html(afterRender);
+            this._selectInScope('.lm-' + i).parent().html(afterRender);
         }
     },
     _onStateChanged: function () {
