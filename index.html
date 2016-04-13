@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <h1>Test ViewModel</h1>
+        <hr>
+
+        <h2>Hello LiKy</h2>
+        <hr>
+        <div id="app1">
+            {message}
+        </div>
+
+        <h2>Two-way Binding</h2>
+        <hr>
+        <div id="app2">
+            <textarea lk-state="text" lk-on="input:convertToMD" style="width: 500; height: 200;"></textarea>
+            <p>{preview}</p>
+        </div>
+
+        <h2>Render a List</h2>
+        <hr>
+        <div id="app3">
+            <ul>
+            {for todo in todos}
+                <li>{todo.text}</li>
+            {/for}
+            </ul>
+        </div>
+
+        <h2>Handle user input</h2>
+        <hr>
+        <div id="app4">
+            <p>{message}</p>
+            <button lk-on="click:reverseMessage">Reverse</button>
+        </div>
+
+        <h2>Mix all together</h2>
+        <hr>
+        <div id="app5">
+            <input type="text" lk-state="newTodo" lk-on="keyup:addTodo">
+            <ul>
+            {for todo in todos}
+                <li>
+                    {todo.text} <button lk-on="click:removeTodo($index)"> x </button>
+                </li>
+            {/for}
+            </ul>
+        </div>
+
+        <h2>Structures</h2>
+        <hr>
+        <div id="app6">
+            <ul>
+            {for todo in todos}
+                <li>
+                    {todo.title} <button lk-on="click:removeTodo($index)"> x </button><br>
+                    <ul>
+                    {for item in todo.items}
+                            <li>{item} <button lk-on="click:removeItem($index)"> x </button></li>
+                    {/for}
+                    </ul>
+                </li>
+            {/for}
+            </ul>
+        </div>
+
+        <h2>Bind different elements</h2>
+        <hr>
+        <div id="app7">
+            <div id="app7-list1">
+                <h3>List - {title}</h3>
+                <ul>
+                {for item in items}
+                    <li>{item}</li>
+                {/for}
+                </ul>
+            </div>
+            <div id="app7-list2">
+                <h3>Another List - {title}</h3>
+                <ul>
+                {for item in items}
+                    <li>{item}</li>
+                {/for}
+                </ul>
+            </div>
+        </div>
+
+        <h2>Handle form</h2>
+        <hr>
+        <div id="app8">
+            <h3>there are a series of form element</h3>
+            <form lk-on="change:show">
+                <h4>Input</h4>
+                <input name="input" lk-state="input" lk-on="input:show" type="text"><br>
+                <p>Input: {input}</p>
+                <h4>Textarea</h4>
+                <textarea lk-state="textarea" lk-on="input:show" id="" cols="30" rows="10"></textarea><br>
+                <p>Textarea: {textarea}</p>
+                <h4>Radio</h4>
+                <input type="radio" name="sex" value="male" lk-state="sex.male" /> Male
+                <br>
+                <input type="radio" name="sex" value="female" lk-state="sex.female" /> Female 
+                <p>Radio: sex.male {maleShow} sex.female {femaleShow}</p>
+                <h4>Checkbox</h4>
+                <input type="checkbox" value="1" name="bike" lk-state="checkbox"/> I have a bike <br />
+                <p>Checkbox: {checkboxShow}</p>
+                <h4>Select</h4>
+                <select name="select" lk-state="select">
+                    <option value="select1">Volvo</option>
+                    <option value="select2">Saab</option>
+                </select>
+                <p>Select: {select}</p>
+                <h4>Option Group</h4>
+                <select name="optionGroup" lk-state="optionGroup">
+                    <optgroup label="Swedish Cars">
+                        <option value="volvo">Volvo</option>
+                    </optgroup>
+                    <optgroup label="German Cars">
+                        <option value="mercedes">Mercedes</option>
+                    </optgroup>
+                </select>
+                <p>Option Group: {optionGroup}</p>
+            </form>
+        </div>
+        <script src="bundle.js"></script>
+    </body>
+</html>
