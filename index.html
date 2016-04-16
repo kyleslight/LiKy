@@ -93,10 +93,10 @@
             <h3>there are a series of form element</h3>
             <form lk-on="change:show">
                 <h4>Input</h4>
-                <input name="input" lk-state="input" lk-on="input:show" type="text"><br>
-                <p>Input: {input}</p>
+                <input name="input" lk-state="input" lk-on="input:showText" type="text"><br>
+                <p>Input: {inputPreview}</p>
                 <h4>Textarea</h4>
-                <textarea lk-state="textarea" lk-on="input:show" id="" cols="30" rows="10"></textarea><br>
+                <textarea lk-state="textarea" lk-on="input:showText" id="" cols="30" rows="10"></textarea><br>
                 <p>Textarea: {textarea}</p>
                 <h4>Radio</h4>
                 <input type="radio" name="sex" value="male" lk-state="sex.male" /> Male
@@ -123,6 +123,23 @@
                 </select>
                 <p>Option Group: {optionGroup}</p>
             </form>
+        </div>
+        <h1>Test Template Engine</h1>
+        <div id="template1">
+            <h2>Items</h2>
+            <ul lk-for="books in personBook">
+                <h3>books</h3>
+                <ul lk-for="book in books">
+                    <li>{{book}}</li>
+                </ul>
+            </ul>
+            <h2>Regions</h2>
+            <ul lk-for="country in region">
+                <h3>country</h3>
+                <ul lk-for="distict in country">
+                    <li>{{distict}}</li>
+                </ul>
+            </ul>
         </div>
         <script src="bundle.js"></script>
     </body>

@@ -87,7 +87,7 @@ ViewModel.createComponent({
 
 var List = ViewModel.createComponent({
     $state: {
-        title: 'lala'
+        title: 'title'
     },
     removeItem: function (index) {
         this.state.items.splice(index, 1);
@@ -106,9 +106,6 @@ List.bindElement('#app7-list2', {
 // Handle Form
 
 ViewModel.createComponent({
-    onStateCreated: function () {
-        this.show();
-    },
     show: function () {
         var map = {
             maleShow: 'sex.male',
@@ -117,6 +114,12 @@ ViewModel.createComponent({
             checkboxShow: 'checkbox'
         };
         for (var i in map) this.state[i] = (this.state[map[i]] ? 'true' : 'false');
-        this.setState();
+        this.setState({inputPreview: this.state.input});
+    },
+    showText: function () {
+        this.setState({
+            inputPreview: this.state.input,
+            textarea: this.state.textarea
+        });
     }
 }).bindElement('#app8');

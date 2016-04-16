@@ -40,6 +40,7 @@ var ViewModel = Model.createClass({
                 });
             }
             self.state[key] = value;
+            console.log('here');
             if (self.$reactive) {
                 self._renderPassivity();
             }
