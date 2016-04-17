@@ -4,18 +4,21 @@ var $ = require('jquery');
 var tpl = $('#template1').html();
 
 var html = Template(tpl, {
-    personBook: [[
-        'SICP', 'Pro JS Tech'
-    ], [
-        'TSOJN', 'PRML'
-    ]],
+    books: ['SICP', 'CSAPP'],
+    ifShowBook: true,
     region: [[
-        'Shangri-La', 'HongKong'
+        {
+            text: 'Singapore'
+        }, {
+            text: 'HongKong'
+        }
     ], [
-        'CA', 'NY'
+        {
+            text: 'NY'
+        }, {
+            text: 'CA'
+        }
     ]]
 });
 
 $('#template1').html(html);
-
-console.log('Rendered Text\n', html);

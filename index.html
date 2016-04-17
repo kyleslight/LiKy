@@ -127,19 +127,18 @@
         <h1>Test Template Engine</h1>
         <div id="template1">
             <h2>Items</h2>
-            <ul lk-for="books in personBook">
-                <h3>books</h3>
-                <ul lk-for="book in books">
-                    <li>{{book}}</li>
-                </ul>
+            <ul lk-if="ifShowBook" lk-for="book in books">
+                <h3>before</h3>
+                <li>{{book}}</li>
+                <h3>after</h3>
             </ul>
             <h2>Regions</h2>
-            <ul lk-for="country in region">
+            <div lk-for="country in region">
                 <h3>country</h3>
                 <ul lk-for="distict in country">
-                    <li>{{distict}}</li>
+                    <li>{{distict.text}}</li>
                 </ul>
-            </ul>
+            </div>
         </div>
         <script src="bundle.js"></script>
     </body>
