@@ -1,7 +1,8 @@
 var Model = require('./Model.js');
 var GUID = require('./GUID.js');
 var $ = require('jquery');
-var whiskers = require('whiskers');
+// var whiskers = require('whiskers');
+var Template = require('./Template.js');
 
 var ViewModel = Model.createClass({
     _preElInner: function () {
@@ -19,14 +20,21 @@ var ViewModel = Model.createClass({
                 elClass: '.le-' + tempGUID
             }
         });
-        // handle {}
+        // handle {{}}
         this._elInner = this._el.html().replace(/^ +/gm, '').replace(/\n/gm, '').trim();
-        this._elInner = this._elInner.replace(/({for(.|\s)*{\/for}|{(\s)*\w+(\s)*}|{if(.|\s)*{\/if})/g, function (str) {
+        this._elInner = this._elInner.replace(/\{\{\S*(\w+)[^\}]*\}\}/g, function (str) {
             var tempGUID = GUID();
             var tempStr = '<span class="lm-' + tempGUID + '">' + str + '</span>';
             self._stateElMap[tempGUID] = tempStr;
             return tempStr;
         });
+        // ================= test ================
+        console.log('start _elInner', this._stateElMap);
+        this._selectInScope('[lk-for]').each(function () {
+            console.log(this);
+        });
+        console.log('leave _elInner', this._stateElMap);
+        // ================= test ================
         // handle lk-state
         self._el.delegate('[lk-state]', 'change paste input', function () {
             var key = this.getAttribute('lk-state');
@@ -40,7 +48,6 @@ var ViewModel = Model.createClass({
                 });
             }
             self.state[key] = value;
-            console.log('here');
             if (self.$reactive) {
                 self._renderPassivity();
             }
@@ -53,7 +60,7 @@ var ViewModel = Model.createClass({
         } else {
             this.$state = this.$state || {};
             for (var i in this.state) {this.$state[i] = this.state[i]}
-            var afterRender = whiskers.render(this._elInner, this.$state);
+            var afterRender = Template(this._elInner, this.$state);
             this._el.html(afterRender);
         }
         this._selectInScope('[lk-state]').each(function () {
@@ -96,10 +103,13 @@ var ViewModel = Model.createClass({
         }
     },
     _renderPassivity: function () {
-        for (var i in this._stateElMap) {
-            var afterRender = whiskers.render(this._stateElMap[i], this.state);
-            this._selectInScope('.lm-' + i).html(afterRender);
-        }
+        for (var i in this.state) {this.$state[i] = this.state[i]}
+        var afterRender = Template(this._elInner, this.$state);
+        this._el.html(afterRender);
+        // for (var i in this._stateElMap) {
+        //     var afterRender = Template(this._stateElMap[i], this.state);
+        //     this._selectInScope('.lm-' + i).html(afterRender);
+        // }
     },
     _onStateChanged: function () {
         this._render(arguments[2]);

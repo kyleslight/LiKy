@@ -8,17 +8,18 @@ var html = Template(tpl, {
     ifShowBook: true,
     region: [[
         {
-            text: 'Singapore'
+            text: 'WH'
         }, {
-            text: 'HongKong'
+            text: 'HK'
         }
     ], [
         {
             text: 'NY'
         }, {
-            text: 'CA'
+            text: 'LA'
         }
     ]]
 });
 
 $('#template1').html(html);
+console.log(html);

@@ -1,43 +1,43 @@
 var ViewModel = require('../src/ViewModel.js');
 var marked = require('marked');
 
-// App 1
+// // App 1
 
-ViewModel.createComponent().bindElement('#app1', {
-    message: 'Hello, LiKy!'
-});
+// ViewModel.createComponent().bindElement('#app1', {
+//     message: 'Hello, LiKy!'
+// });
 
-// App 2
+// // App 2
 
-ViewModel.createComponent({
-    convertToMD: function () {
-        this.setState({
-            preview: marked(this.state.text)
-        })
-    }
-}).bindElement('#app2');
+// ViewModel.createComponent({
+//     convertToMD: function () {
+//         this.setState({
+//             preview: marked(this.state.text)
+//         })
+//     }
+// }).bindElement('#app2');
 
 // App 3
 
-ViewModel.createComponent().bindElement('#app3', {
-    todos: [
-      { text: 'Learn JavaScript' },
-      { text: 'Learn LiKy' },
-      { text: 'Build Something Awesome' }
-    ]
-});
+// ViewModel.createComponent().bindElement('#app3', {
+//     todos: [
+//       { text: 'Learn JavaScript' },
+//       { text: 'Learn LiKy' },
+//       { text: 'Build Something Awesome' }
+//     ]
+// });
 
-// App 4
+// // App 4
 
-ViewModel.createComponent({
-    reverseMessage: function () {
-        this.setState({
-            message: this.state.message.split('').reverse().join('')
-        });
-    }
-}).bindElement('#app4', {
-    message: 'Hello LiKy!'
-});
+// ViewModel.createComponent({
+//     reverseMessage: function () {
+//         this.setState({
+//             message: this.state.message.split('').reverse().join('')
+//         });
+//     }
+// }).bindElement('#app4', {
+//     message: 'Hello LiKy!'
+// });
 
 // App 5
 
@@ -57,69 +57,69 @@ ViewModel.createComponent({
     todos: [{text: 'Add some todos!'}]
 });
 
-// Structure changes
+// // Structure changes
 
-ViewModel.createComponent({
-    removeTodo: function (index) {
-        this.state.todos.splice(index, 1);
-        this.setState();
-    },
-    removeItem: function (index) {
-        this.state.todos.forEach(function (todo) {
-            todo.items.forEach( function (item, i) {
-                if (index-- === 0)
-                    todo.items.splice(i, 1);
-            });
-        });
-        this.setState();
-    }
-}).bindElement('#app6', {
-    todos : [{
-        title: 'todo 1',
-        items: ['item 1', 'item 2']
-    }, {
-        title: 'todo 2',
-        items: ['item 1', 'item 2']
-    }]
-});
+// ViewModel.createComponent({
+//     removeTodo: function (index) {
+//         this.state.todos.splice(index, 1);
+//         this.setState();
+//     },
+//     removeItem: function (index) {
+//         this.state.todos.forEach(function (todo) {
+//             todo.items.forEach( function (item, i) {
+//                 if (index-- === 0)
+//                     todo.items.splice(i, 1);
+//             });
+//         });
+//         this.setState();
+//     }
+// }).bindElement('#app6', {
+//     todos : [{
+//         title: 'todo 1',
+//         items: ['item 1', 'item 2']
+//     }, {
+//         title: 'todo 2',
+//         items: ['item 1', 'item 2']
+//     }]
+// });
 
-// Bind different elements
+// // Bind different elements
 
-var List = ViewModel.createComponent({
-    $state: {
-        title: 'title'
-    },
-    removeItem: function (index) {
-        this.state.items.splice(index, 1);
-        this.setState();
-    }
-});
+// var List = ViewModel.createComponent({
+//     $state: {
+//         title: 'title'
+//     },
+//     removeItem: function (index) {
+//         this.state.items.splice(index, 1);
+//         this.setState();
+//     }
+// });
 
-List.bindElement('#app7-list1', {
-    items: ['Learn JavaScript', 'Learn LiKy', 'Build Something Awesome']
-});
+// List.bindElement('#app7-list1', {
+//     items: ['Learn JavaScript', 'Learn LiKy', 'Build Something Awesome']
+// });
 
-List.bindElement('#app7-list2', {
-    items: ['item 1', 'item 2', 'item 3']
-});
+// List.bindElement('#app7-list2', {
+//     items: ['item 1', 'item 2', 'item 3']
+// });
 
-// Handle Form
+// // Handle Form
 
-ViewModel.createComponent({
-    show: function () {
-        var map = {
-            maleShow: 'sex.male',
-            femaleShow: 'sex.female',
-            unknowShow: 'sex.unknow',
-            checkboxShow: 'checkbox'
-        };
-        for (var i in map) this.state[i] = (this.state[map[i]] ? 'true' : 'false');
-        this.setState({inputPreview: this.state.input});
-    },
-    showText: function () {
-        this.setState({
-            inputPreview: this.state.input,
-            textarea: this.state.textarea
-        });
-    }
-}).bindElement('#app8');
+// ViewModel.createComponent({
+//     show: function () {
+//         var map = {
+//             maleShow: 'sex.male',
+//             femaleShow: 'sex.female',
+//             unknowShow: 'sex.unknow',
+//             checkboxShow: 'checkbox'
+//         };
+//         for (var i in map) this.state[i] = (this.state[map[i]] ? 'true' : 'false');
+//         this.setState({inputPreview: this.state.input});
+//     },
+//     showText: function () {
+//         this.setState({
+//             inputPreview: this.state.input,
+//             textarea: this.state.textarea
+//         });
+//     }
+// }).bindElement('#app8');
