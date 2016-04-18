@@ -91,7 +91,6 @@ var Template = function (tpl, data) {
     var suf = 'return s.join("");';
     body = convertControl(tpl);
     body = 's.push("' + convertLoop(body, -1)  + '");';
-    console.log(body);
     body = convertValue(body);
     body = convertHTML(body);
     body = pre + body + suf;
