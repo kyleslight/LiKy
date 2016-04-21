@@ -1,132 +1,301 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <title>LiKy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="full.min.css">
+        <link rel="stylesheet" href="github.css">
+        <style>
+            textarea,.previewContainer {
+                border: 1px solid #CCC;
+                height: 300px;
+            }
+            .mdpreview {
+                width: 50%;
+            }
+            label {
+                color: #666;
+            }
+            pre {
+                width: 90%;
+            }
+            .previewContainer {
+                padding: 5px;
+                height: 288px;
+            }
+            @media (min-width: 960px){
+                .testcode {
+                    width: 45%;
+                }
+                .md {
+                    width: 50%;
+                }
+                .theform {
+                    width: 70%;
+                }
+                .label {
+                    width: 30%;
+                }
+            }
+
+            @media (max-width: 960px) {
+                pre {
+                    width: 98%;
+                }
+                label {
+                    padding-left: 0px;
+                }
+                .testcode {
+                    width: 100%;
+                }
+                .md {
+                    width: 100%;
+                }
+                .mdpreview {
+                    width: 100%;
+                }
+                .theform {
+                    width: 100%;
+                }
+            }
+        </style>
     </head>
     <body>
-        <h1>Test ViewModel</h1>
-        <hr>
-
-        <h2>Hello LiKy</h2>
-        <hr>
-        <div id="app1">
-            {{message}}
-        </div>
-
-        <h2>Two-way Binding</h2>
-        <hr>
-        <div id="app2">
-            <textarea lk-state="text" lk-on="input:convertToMD" style="width: 500; height: 200;"></textarea>
-            <p>{{preview}}</p>
-        </div>
-
-        <h2>Render a List</h2>
-        <hr>
-        <div id="app3">
-            <ul lk-for="todo in todos">
-                <li>{{todo.text}}</li>
-            </ul>
-        </div>
-
-        <h2>Handle user input</h2>
-        <hr>
-        <div id="app4">
-            <p>{{message}}</p>
-            <button lk-on="click:reverseMessage">Reverse</button>
-        </div>
-
-        <h2>Mix all together</h2>
-        <hr>
-        <div id="app5">
-            <input type="text" lk-state="newTodo" lk-on="keyup:addTodo">
-            <ul lk-for="todo in todos">
-                <li>
-                    {{todo.text}} <button lk-on="click:removeTodo($index)"> x </button>
-                </li>
-            </ul>
-        </div>
-
-        <h2>Structures</h2>
-        <hr>
-        <div id="app6">
-            <ul lk-for="todo in todos">
-                <li>
-                    {{todo.title}} <button lk-on="click:removeTodo($index)"> x </button><br>
-                    <ul lk-for="item in todo.items">
-                        <li>{{item}} <button lk-on="click:removeItem($index)"> x </button></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <h2>Bind different elements</h2>
-        <hr>
-        <div id="app7">
-            <div id="app7-list1">
-                <h3>List - {{title}}</h3>
-                <ul lk-for="item in items">
-                    <li>{{item}}</li>
-                </ul>
-            </div>
-            <div id="app7-list2">
-                <h3>Another List - {{title}}</h3>
-                <ul lk-for="item in items">
-                    <li>{{item}}</li>
-                </ul>
+        <div class="site-header">
+            <div class="site-center">
+                <div class="cell"><h1>LiKy</h1></div>
             </div>
         </div>
+        <div class="site-body">
+            <div class="site-center">
+                <div class="col"><div class="cell"><h1>Intro</h1></div></div>
+                <div class="col"><div class="cell" id="intro">
+                    {{{introPreview}}}
+                </div></div>
+                <div class="col"><div class="cell"><h1>Demos</h1></div></div>
 
-        <h2>Handle form</h2>
-        <hr>
-        <div id="app8">
-            <h3>there are a series of form element</h3>
-            <form lk-on="change:show">
-                <h4>Input</h4>
-                <input name="input" lk-state="input" lk-on="input:showText" type="text"><br>
-                <p>Input: {{inputPreview}}</p>
-                <h4>Textarea</h4>
-                <textarea lk-state="textarea" lk-on="input:showText" id="" cols="30" rows="10"></textarea><br>
-                <p>Textarea: {{textarea}}</p>
-                <h4>Radio</h4>
-                <input type="radio" name="sex" value="male" lk-state="sex.male" /> Male
-                <br>
-                <input type="radio" name="sex" value="female" lk-state="sex.female" /> Female 
-                <p>Radio: sex.male {{maleShow}} sex.female {{femaleShow}}</p>
-                <h4>Checkbox</h4>
-                <input type="checkbox" value="1" name="bike" lk-state="checkbox"/> I have a bike <br />
-                <p>Checkbox: {{checkboxShow}}</p>
-                <h4>Select</h4>
-                <select name="select" lk-state="select">
-                    <option value="select1">Volvo</option>
-                    <option value="select2">Saab</option>
-                </select>
-                <p>Select: {{select}}</p>
-                <h4>Option Group</h4>
-                <select name="optionGroup" lk-state="optionGroup">
-                    <optgroup label="Swedish Cars">
-                        <option value="volvo">Volvo</option>
-                    </optgroup>
-                    <optgroup label="German Cars">
-                        <option value="mercedes">Mercedes</option>
-                    </optgroup>
-                </select>
-                <p>Option Group: {{optionGroup}}</p>
-            </form>
-        </div>
-        <h1>Test Template Engine</h1>
-        <div id="template1">
-            <h2>Items</h2>
-            <ul lk-if="ifShowBook" lk-for="book in books">
-                <h1>{{{book}}}</h1>
-                <li>{{book}}</li>
-            </ul>
-            <h2>Regions</h2>
-            <div lk-for="country in region">
-                <h3>country</h3>
-                <ul lk-for="distict in country">
-                    <li>{{distict.text}}</li>
-                </ul>
+                <div class="col"><div class="cell"><h2>Hello LiKy</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code1">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill">
+                        <div id="app1">
+                            {{message}}
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Data Binding</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code2">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill">
+                        <div id="app2">
+                            <textarea class="col md" lk-state="text" lk-on="input:convertToMD"></textarea>
+                            <div class="col mdpreview"><div class="previewContainer">{{{preview}}}</div></div>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Rendering List</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code3">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill">
+                        <div id="app3">
+                            <ul lk-for="item in items">
+                                <li>{{item.text}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Handling Input</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code4">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill" id="app4wrap">
+                        <div id="app4">
+                            <p>{{message}}</p>
+                            <button lk-on="click:reverseMessage">Reverse</button>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Simple Todo Application</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code5">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill">
+                        <div id="app5">
+                            <input type="text" lk-state="newTodo" lk-on="keyup:addTodo">
+                            <ul lk-for="todo in todos">
+                                <li>
+                                    {{todo.text}} <button lk-on="click:removeTodo($index)"> x </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Structures</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code6">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill" id="app6">
+                        <ul lk-for="todo in todos">
+                            <li>
+                                {{todo.title}} <button lk-on="click:removeTodo($index)"> x </button><br>
+                                <ul lk-for="item in todo.items">
+                                    <li>{{item}} <button lk-on="click:removeItem($index)"> x </button></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Binding Different Elements</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code7">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill" id="app7">
+                        <div id="app7-list1">
+                            <h3>List - {{title}}</h3>
+                            <ul lk-for="item in items">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                        <div id="app7-list2">
+                            <h3>Another List - {{title}}</h3>
+                            <ul lk-for="item in items">
+                                <li>{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Handling Form</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col testcode">
+                        <div id="code8">
+                            {{{htmlPreview}}}
+                            {{{jsPreview}}}
+                        </div>
+                    </div>
+                    <div class="col width-fill" id="app8">
+                        <div class="col theform">
+                            <form lk-on="submit:submit">
+                                <div class="cell">
+                                    <div class="col label"><label for="input">Input</label></div>
+                                    <div class="col width-fill">
+                                        <input name="input" lk-state="input" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="cell">
+                                    <div class="col label"><label for="textarea">Textarea</label></div>
+                                    <div class="col width-fill">
+                                        <textarea lk-state="textarea" id="" cols="30" rows="10"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="cell">
+                                    <div class="col label"><label for="textarea">Radio</label></div>
+                                    <div class="col width-fill">
+                                        <input type="radio" name="sex" value="male" lk-state="sex.male" /> <label for="Male">Male</label>
+                                        <br>
+                                        <input type="radio" name="sex" value="female" lk-state="sex.female" /> <label for="Female">Female</label> 
+                                    </div>
+                                </div>
+                                
+                                <div class="cell">
+                                    <div class="col label"><label for="textarea">Checkbox</label></div>
+                                    <div class="col width-fill">
+                                        <input type="checkbox" value="1" name="bike" lk-state="checkbox"/> I have a bike
+                                    </div>
+                                </div>
+                                
+                                <div class="cell">
+                                    <div class="col label"><label for="textarea">Select</label></div>
+                                    <div class="col width-fill">
+                                        <select name="select" lk-state="select">
+                                            <option disabled selected value> -- select an option -- </option>
+                                            <option value="select1">Volvo</option>
+                                            <option value="select2">Saab</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="cell">
+                                    <div class="col label"><label for="textarea">Select Option Group</label></div>
+                                    <div class="col width-fill">
+                                        <select name="optionGroup" lk-state="optionGroup">
+                                            <option disabled selected value> -- select an option -- </option>
+                                            <optgroup label="Swedish Cars">
+                                                <option value="volvo">Volvo</option>
+                                            </optgroup>
+                                            <optgroup label="German Cars">
+                                                <option value="mercedes">Mercedes</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="cell">
+                                    <div class="col label"></div>
+                                    <div class="col width-fill">
+                                        <button type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col width-fill">
+                            <h2>Form Data</h2>
+                            <p><label>Input</label> {{input}}</p>
+                            <p><label>Textarea</label> {{textarea}}</p>
+                            <p><label>Radio</label> </p>
+                            <ul>
+                                <li><label>Male</label> {{maleShow}}</li>
+                                <li><label>Female</label> {{femaleShow}}</li>
+                            </ul>
+                            <p><label>Checkbox</label> {{checkboxShow}}</p>
+                            <p><label>Select</label> {{select}}</p>
+                            <p><label>Select Option Group</label> {{optionGroup}}</p>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
         <script src="bundle.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
     </body>
 </html>

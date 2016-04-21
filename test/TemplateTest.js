@@ -4,22 +4,13 @@ var $ = require('jquery');
 var tpl = $('#template1').html();
 
 var html = Template(tpl, {
-    books: ['SICP', 'CSAPP'],
-    ifShowBook: true,
-    region: [[
-        {
-            text: 'WH'
-        }, {
-            text: 'HK'
-        }
-    ], [
-        {
-            text: 'NY'
-        }, {
-            text: 'LA'
-        }
-    ]]
+    todos : [{
+        title: 'todo 1',
+        items: ['item 1', 'item 2']
+    }, {
+        title: 'todo 2',
+        items: ['item 1', 'item 2']
+    }]
 });
 
 $('#template1').html(html);
-console.log(html);
