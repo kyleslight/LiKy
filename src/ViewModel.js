@@ -1,6 +1,6 @@
 var Model = require('./Model.js');
 var GUID = require('./GUID.js');
-var $ = require('jquery');
+var Selector = require('./Selector.js');
 var Template = require('./Template.js');
 
 var ViewModel = Model.createClass({
@@ -13,22 +13,44 @@ var ViewModel = Model.createClass({
                 return em.split(':');
             });;
             var tempGUID = GUID();
-            $(this).addClass('le-' + tempGUID);
+            this.classList.add('le-' + tempGUID);
             self._eventMap[tempGUID] = {
                 ems: ems,
                 elClass: '.le-' + tempGUID
             }
         });
-        // handle {{}}
-        this._elInner = this._el.html().replace(/^ +/gm, '').replace(/\n/gm, '').trim();
-        this._elInner = Template.tagPair(self._elInner, 'for').map(function (sub) {
-            if (!/lk-for/.test(sub)) return sub;
+        // handle lk-if/lk-not
+        this._selectInScope('[lk-if], [lk-not]').each(function () {
             var tempGUID = GUID();
-            var tempStr = '<span class="cs-' + tempGUID + '">' + sub + '</span>';
-            self._controlMap[tempGUID] = tempStr;
-            return tempStr;
-        }).join('');
-        this._elInner = this._elInner.replace(/\{\{([^\}\}]+)?\}\}(?=[^}])|\{\{\{([^\}\}\}]+)?\}\}\}/g, function (str) {
+            this.classList.add('lm-' + tempGUID);
+            self._stateElMap[tempGUID] = this.outerHTML;
+        });
+        // handle lk-for
+        this._selectInScope('[lk-for]').each(function () {
+            var tempGUID = GUID();
+            this.classList.add('cs-' + tempGUID);
+            self._controlMap[tempGUID] = this.outerHTML;
+        });
+        // handle wrap {{}}
+        this._selectInScope('[lk-attr]').each(function () {
+            var kvRaw = this.getAttribute('lk-attr');
+            var kvs = kvRaw.replace(/ /g, '').split(';').map(function (kv) {
+                return kv.split(':');
+            });
+            var tempGUID = GUID();
+            this.classList.add('kv-' + tempGUID);
+            self._kvMap[tempGUID] = {
+                kvs: kvs,
+                elClass: '.kv-' + tempGUID
+            };
+        });
+        // save DOM class
+        this._selectInScope('[lk-on], [lk-if], [lk-not], [lk-for], [lk-attr]').each (function () {
+            this.setAttribute('_class', this.getAttribute('class'));
+        });
+        this._elInner = this._el.html().replace(/^ +/gm, '').replace(/\n/gm, '').trim();
+        // handle no warp {{}}
+        this._elInner = this._elInner.replace(/\{{2}([^\{\}]*)\}{2}(?=[^\}])|{{2}([^}]*)\}{2}$|\{{3}([^\{\}]*)\}{3}(?=[^\}])|{{3}([^}]*)\}{3}$/g, function (str) {
             var tempGUID = GUID();
             var tempStr = '<span class="lm-' + tempGUID + '">' + str + '</span>';
             self._stateElMap[tempGUID] = tempStr;
@@ -69,16 +91,29 @@ var ViewModel = Model.createClass({
             if (this.type === 'checkbox' || this.type === 'radio') 
                 this.checked = self.state[key];
             else if (this.tagName !== 'INPUT')
-                $(this).val(self.state[key]);
+                this.value = self.state[key];
             if (diff && diff[key] !== undefined) {
-                $(this).val(diff[key]);
+                this.value = diff[key];
             }
         });
-        this._selectInScope('[lk-hide]').each(function () {
-            var key = this.getAttribute('lk-hide');
-            if (key === 'false') return;
-            $(this).hide();
-        });
+        for (var i in this._kvMap) {
+            var _t = this._kvMap[i];
+            this._selectInScope(_t.elClass).each(function () {
+                var _dom = this;
+                for (var k in _t.kvs) {
+                    var attr = _t.kvs[k][0], value = _t.kvs[k][1];
+                    if (attr === 'class') {
+                        var _saved = _dom.getAttribute('_class');
+                        var _l = value.split(',');
+                        for (var m in _l) _saved += (' ' + self.state[_l[m]]);
+                        _dom.setAttribute('class', _saved);
+                    } else {
+                        var _saved = '';
+                        _dom.setAttribute(attr, value);
+                    }
+                }
+            });
+        }
     },
     _delegateEvents: function () {
         var self = this;
@@ -109,19 +144,18 @@ var ViewModel = Model.createClass({
         for (var i in this.state) {this.$state[i] = this.state[i]}
         for (var i in this._stateElMap) {
             var afterRender = Template(this._stateElMap[i], this.$state);
-            this._selectInScope('.lm-' + i).html(afterRender);
+            this._selectInScope('.lm-' + i).replace(afterRender);
         }
         for (var i in this._controlMap) {
             var afterRender = Template(this._controlMap[i], this.$state);
-            afterRender = $(afterRender).html();
-            this._selectInScope('.cs-' + i).html(afterRender);
+            this._selectInScope('.cs-' + i).replace(afterRender);
         }
     },
     _onStateChanged: function () {
         this._render(arguments[2]);
     },
     _selectInScope: function (selector) {
-        return $(selector, this._el);
+        return Selector(this.$el, selector);
     },
     onInitialRendered: function () {}
 });
@@ -136,12 +170,13 @@ ViewModel.addClassStatic({
     bindElement: function (el, state) {
         var o = this.createInstance(state || {});
         o.$el = el;
-        o._el = $(el);
+        o._el = Selector(el);
         o._elInner = o._el.html();
         o._eventMap = {};
         o._stateElMap = {};
         o._controlMap = {};
         o._elStateMap = {};
+        o._kvMap = {};
 
         o._preElInner();
         o._render();

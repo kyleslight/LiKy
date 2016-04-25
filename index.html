@@ -2,63 +2,10 @@
     <head>
         <meta charset="utf-8">
         <title>LiKy</title>
+        <link rel="stylesheet" href="./test/css/full.min.css">
+        <link rel="stylesheet" href="./test/css/github.css">
+        <link rel="stylesheet" href="./test/css/user.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="full.min.css">
-        <link rel="stylesheet" href="github.css">
-        <style>
-            textarea,.previewContainer {
-                border: 1px solid #CCC;
-                height: 300px;
-            }
-            .mdpreview {
-                width: 50%;
-            }
-            label {
-                color: #666;
-            }
-            pre {
-                width: 90%;
-            }
-            .previewContainer {
-                padding: 5px;
-                height: 288px;
-            }
-            @media (min-width: 960px){
-                .testcode {
-                    width: 45%;
-                }
-                .md {
-                    width: 50%;
-                }
-                .theform {
-                    width: 70%;
-                }
-                .label {
-                    width: 30%;
-                }
-            }
-
-            @media (max-width: 960px) {
-                pre {
-                    width: 98%;
-                }
-                label {
-                    padding-left: 0px;
-                }
-                .testcode {
-                    width: 100%;
-                }
-                .md {
-                    width: 100%;
-                }
-                .mdpreview {
-                    width: 100%;
-                }
-                .theform {
-                    width: 100%;
-                }
-            }
-        </style>
     </head>
     <body>
         <div class="site-header">
@@ -99,7 +46,7 @@
                     </div>
                     <div class="col width-fill">
                         <div id="app2">
-                            <textarea class="col md" lk-state="text" lk-on="input:convertToMD"></textarea>
+                            <textarea class="col md" lk-state="text" lk-on="input:convertMD"></textarea>
                             <div class="col mdpreview"><div class="previewContainer">{{{preview}}}</div></div>
                         </div>
                     </div>
@@ -248,8 +195,8 @@
                                     <div class="col width-fill">
                                         <select name="select" lk-state="select">
                                             <option disabled selected value> -- select an option -- </option>
-                                            <option value="select1">Volvo</option>
-                                            <option value="select2">Saab</option>
+                                            <option value="Volvo">Volvo</option>
+                                            <option value="Saab">Saab</option>
                                         </select>
                                     </div>
                                 </div>
@@ -292,10 +239,61 @@
                         </div>
                     </div>
                 </div></div>
+
+                <div class="col"><div class="cell"><h2>Remote Persistence</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col width-fill">
+                        <div id="app9">
+                            <div>
+                                <input type="text" lk-state="title">
+                                <input type="text" lk-state="content">
+                                <button lk-if="ifAdd" lk-on="click:addPost">add</button>
+                                <button lk-not="ifAdd" lk-on="click:updatePost">Update</button>
+                            </div>
+                            <div class="result" lk-for="post in posts">
+                                <h4>{{post.title}} <button lk-on="click:editPost($index)">Edit</button><button lk-on="click:deletePost($index)"> x </button></h4>
+                                <p>{{post.content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Local Persistence</h2></div></div>
+                <div class="cel"><div class="cell">
+                    <div class="col width-fill">
+                        <div id="app10">
+                            <div>
+                                <input type="text" lk-state="title">
+                                <input type="text" lk-state="content">
+                                <button lk-if="ifAdd" lk-on="click:addPost">add</button>
+                                <button lk-not="ifAdd" lk-on="click:updatePost">Update</button>
+                            </div>
+                            <div class="result" lk-for="post in posts">
+                                <h4>{{post.title}} <button lk-on="click:editPost($index)">Edit</button><button lk-on="click:deletePost($index)"> x </button></h4>
+                                <p>{{post.content}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+
+                <div class="col"><div class="cell"><h2>Attributes</h2></div></div>
+                <div class="col"><div class="cell">
+                    <div class="col width-fill">
+                        <div id="app11">
+                            <div class="block" lk-attr="class:color"></div>
+                            <button lk-on="click:toRed">RED</button>
+                            <button lk-on="click:toBlue">BLUE</button>
+                            <button lk-on="click:clear">CLEAR</button>
+                        </div>
+                    </div>
+                </div></div>
             </div>
         </div>
-        <script src="bundle.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+        <script src="./test/js/highlight.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
+        <script src="./test/js/marked.js"></script>
+        <script src="./dist/liky.js"></script>
+        <script src="./index.js"></script>
+        
     </body>
 </html>

@@ -1,5 +1,6 @@
 var Class = require('./Class.js');
 var GUID = require('./GUID.js');
+var Persistence = require('./Persistence.js');
 
 if(typeof Object.create !== 'function') {
     Object.create = function (o) {
@@ -44,6 +45,8 @@ Model.extend({
     onRecordChanged: function () {},
     onRecordDestroyed: function () {}
 });
+
+Model.include(Persistence);
 
 Model.include({
     init: function () {},
@@ -100,6 +103,45 @@ Model.include({
         this.parent.onRecordDestroyed(this);
 
         delete this.parent._records[this._id];
+    },
+    // P
+    remoteRead: function (_f, _option) {
+        var self = this;
+        if (!this.$remoteUrl) {
+            console.error('No $remoteUrl, please set it in component');
+            return;
+        }
+        if (typeof _f !== 'function') {
+            console.error('The first argument must be a function');
+            return;
+        }
+        _option = (typeof _option === 'object' ? this._serialize(_option) : '');
+        var res = new XMLHttpRequest();
+        res.onreadystatechange = function () {
+            if (res.readyState === 4) {
+                if (res.status === 200) {
+                    _f.call(self, JSON.parse(res.responseText));
+                }
+                else
+                    console.warn('Request failed, status: %d', res.status);
+            }
+
+        };
+        res.open('GET', this.$remoteUrl + '?' + _option, true);
+        res.send();
+    },
+    _serialize: function(obj, prefix) {
+        var str = [];
+        for(var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+                str.push(typeof v == "object" ? serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+            }
+        }
+        return str.join("&");
+    },
+    _updateState: function (obj) {
+        for (var i in obj) this.state[i] = obj[i];
     },
     // callbacks
     onCreated: function () {},
