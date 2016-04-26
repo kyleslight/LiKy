@@ -1,7 +1,5 @@
 # LiKy
 
-A Javascript MVVM Library for Building Interface.
-
 ## Intro
 
 [LiKy](https://github.com/kyleslight/LiKy) ( name combined with '狸' and 'Kyles' ) is a Javascript MVVM Library to help web developers building user interface. It is a project created by [Kyles Light](https://github.com/kyleslight) for learning and personal use. The core of LiKy is really tiny ( compressed size of version 0.0.2 is 13 KB ) but made easy to use. 
@@ -179,7 +177,7 @@ var content = this.state.content; // real-time value
 You can dynamically change your element attribute by setting `lk-attr` :
 
 ```html
-<div class="block" lk-state="class:color"></div>
+<div class="block" lk-attr="class:color"></div>
 ```
 
 So when you change  `color` in your `state`:
@@ -194,7 +192,7 @@ this.setState({
 The element will be :
 
 ```html
-<div class="block red" lk-state="class:color"></div>
+<div class="block red" lk-attr="class:color"></div>
 ```
 
 - Note the initial class attribute will not be recovered. But if you change `color` to `blue`, the value `red` will be replaced.
