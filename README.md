@@ -1,5 +1,7 @@
 # LiKy
 
+A Javascript MVVM Library for Building Interface.
+
 ## Intro
 
 [LiKy](https://github.com/kyleslight/LiKy) ( name combined with '狸' and 'Kyles' ) is a Javascript MVVM Library to help web developers building user interface. It is a project created by [Kyles Light](https://github.com/kyleslight) for learning and personal use. The core of LiKy is really tiny ( compressed size of version 0.0.2 is 13 KB ) but made easy to use. 
@@ -197,8 +199,8 @@ The element will be :
 
 - Note the initial class attribute will not be recovered. But if you change `color` to `blue`, the value `red` will be replaced.
 - For other attributes, the value will be replaced by the value in your `state`.
-- Use `lk-state="class:class1,class2..."` to set multi-class.
-- Use `lk-state="attr1:value1;attr2:value2..."` to set multi-attribute.
+- Use `lk-attr="class:class1,class2..."` to set multi-class.
+- Use `lk-attr="attr1:value1;attr2:value2..."` to set multi-attribute.
 
 ## Issues
 
